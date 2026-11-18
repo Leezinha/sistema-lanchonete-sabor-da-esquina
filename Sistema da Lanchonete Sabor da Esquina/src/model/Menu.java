@@ -15,7 +15,7 @@ public class Menu {
 
     }
 
-    public void menuCozinhero() {
+    public void menuCozinheiro() {
         System.out.println("===== MENU COZINHEIRO =====");
         System.out.println("Consultar pedidos");
         System.out.println("Alterar status do pedido");

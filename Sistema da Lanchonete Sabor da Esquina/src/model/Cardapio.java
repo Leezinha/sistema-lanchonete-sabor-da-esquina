@@ -30,9 +30,11 @@ public class Cardapio {
             System.out.println("Descrição: " + produto.getDescricao());
             System.out.println("Preço: R$ " + produto.getPreco());
             System.out.println("Categoria: " + produto.getCategoria());
-            System.out.println("Status: " + produto.statusDisponibilidade());
-            System.out.println("===========================================");
+            System.out.println("Status: " + produto.statusDisponivel());
+              System.out.println("===========================================");
         }
+
+      
     }
 
 }

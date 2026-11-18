@@ -1,5 +1,6 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Cliente {
@@ -8,8 +9,10 @@ public class Cliente {
     private String telefone;
     private String endereco;
     private String pontoReferencia;
+    private ArrayList<Cliente> clientes;
 
     public Cliente() {
+        clientes = new ArrayList<>();
     }
 
     public Cliente(String nome, String telefone, String endereco, String pontoReferencia) {
@@ -59,6 +62,8 @@ public class Cliente {
         System.out.print("Nome: ");
         String nome = sc.nextLine();
 
+       
+       //fazer validações
         System.out.print("Telefone: ");
         String telefone = sc.nextLine();
 
@@ -78,4 +83,28 @@ public class Cliente {
 
         return cliente;
     }
+ public void adicionarCliente(Cliente cliente) {
+        clientes.add(cliente);
+        System.out.println("Cliente cadastrado com sucesso!");
+    }
+
+    public void listarCliente() {
+
+        if (clientes.isEmpty()) {
+            System.out.println("Nenhum cliente cadastrado.");
+            return;
+        }
+
+        System.out.println("===== CLIENTES CADASTRADOS =====");
+
+        for (Cliente cliente : clientes) {
+
+            System.out.println("Nome: " + cliente.getNome());
+            System.out.println("Telefone: " + cliente.getTelefone());
+            System.out.println("Endereço: " + cliente.getEndereco());
+            System.out.println("Ponto de referência: " + cliente.getPontoReferencia());
+            System.out.println("===========================================");
+        }
+    }
 }
+

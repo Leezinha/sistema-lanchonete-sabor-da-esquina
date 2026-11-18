@@ -64,10 +64,13 @@ public class Produto {
 
     public Produto cadastrarProduto() {
         Scanner sc = new Scanner(System.in);
-    
 
         System.out.println("Nome do produto: ");
         String nomeProduto = sc.nextLine();
+
+        if (nomeProduto.isBlank() || nomeProduto.isEmpty()) {
+            System.out.println("Nome obrigatório.");
+        }
 
         System.out.println("Descrição do produto: ");
         String descricao = sc.nextLine();
@@ -80,12 +83,14 @@ public class Produto {
             preco = sc.nextDouble();
             sc.nextLine();
 
+            if (preco <= 0) {
+                System.out.println("Preço deve ser maior que zero.");
+
+            }
         } catch (InputMismatchException e) {
 
             System.out.println("Preço inválido.");
-
         }
-
         System.out.println("Categoria do produto: ");
         String categoria = sc.nextLine();
 

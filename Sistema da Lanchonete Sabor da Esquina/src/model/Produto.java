@@ -62,15 +62,15 @@ public class Produto {
         this.disponivel = disponivel;
     }
 
-    public Produto cadastrarProduto() {
-        Scanner sc = new Scanner(System.in);
+    public Produto cadastrarProduto(Scanner sc) {
+        
+       String nomeProduto;
 
-        System.out.println("Nome do produto: ");
-        String nomeProduto = sc.nextLine();
-
-        if (nomeProduto.isBlank() || nomeProduto.isEmpty()) {
+        do{ System.out.print("Nome do produto: ");
+        nomeProduto = sc.nextLine();
+        if (nomeProduto.isBlank()) {
             System.out.println("Nome obrigatório.");
-        }
+        } }while (nomeProduto.isBlank());
 
         System.out.println("Descrição do produto: ");
         String descricao = sc.nextLine();

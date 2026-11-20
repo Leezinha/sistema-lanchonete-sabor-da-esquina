@@ -17,8 +17,8 @@ public class Menu {
 
     public void menuCozinheiro() {
         System.out.println("===== MENU COZINHEIRO =====");
-        System.out.println("Consultar pedidos");
-        System.out.println("Alterar status do pedido");
+        System.out.println("1 - Consultar pedidos");
+        System.out.println("2 - Alterar status do pedido");
         System.out.println("0 - Sair");
         System.out.println("==========================");
 

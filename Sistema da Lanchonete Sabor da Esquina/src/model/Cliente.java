@@ -59,21 +59,44 @@ public class Cliente {
 
         System.out.println("===== CADASTRO DE CLIENTE =====");
 
-        System.out.print("Nome: ");
-        String nome = sc.nextLine();
+        String nome;
+        do {
+            System.out.println("Nome: ");
+            nome = sc.nextLine();
 
-       
-       //fazer validações
-        System.out.print("Telefone: ");
-        String telefone = sc.nextLine();
+            if (nome.isBlank()) {
+                System.out.println("Nome obrigatório.");
+            }
+        } while (nome.isBlank());
 
-        System.out.print("Endereço: ");
+        String telefone;
+
+        do {
+
+            System.out.print("Telefone: ");
+            telefone = sc.nextLine();
+
+            if (telefone.isBlank()) {
+                System.out.println("Telefone obrigatório.");
+            }
+
+            else if (!telefone.matches("[0-9()\\-\\s]+")) {
+                System.out.println("Telefone deve conter apenas números.");
+            }
+
+            else if (telefone.length() < 10 || telefone.length() > 16) {
+                System.out.println("Telefone inválido.");
+            }
+
+        } while (telefone.isBlank() || !telefone.matches("[0-9()\\-\\s]+") || telefone.length() < 10
+                || telefone.length() > 16);
+
+        System.out.println("Endereço: ");
         String endereco = sc.nextLine();
 
-        System.out.print("Ponto de referência: ");
+        System.out.println("Ponto de referência: ");
         String pontoReferencia = sc.nextLine();
         System.out.println("===============================");
-        
 
         Cliente cliente = new Cliente(
                 nome,
@@ -83,7 +106,8 @@ public class Cliente {
 
         return cliente;
     }
- public void adicionarCliente(Cliente cliente) {
+
+    public void adicionarCliente(Cliente cliente) {
         clientes.add(cliente);
         System.out.println("Cliente cadastrado com sucesso!");
     }
@@ -107,4 +131,3 @@ public class Cliente {
         }
     }
 }
-

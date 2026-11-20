@@ -1,5 +1,7 @@
 package model;
 
+import java.util.Scanner;
+
 public class Usuario {
 
     private String login;
@@ -45,5 +47,21 @@ public class Usuario {
 
     public boolean verificarSenha(String senha) {
         return this.senha.equals(senha);
+    }
+
+    public Usuario fazerLogin(Scanner sc) {
+
+        System.out.println("============ SISTEMA DE LOGIN ============");
+
+        System.out.print("Login: ");
+        this.login = sc.nextLine();
+
+        System.out.print("Senha: ");
+        this.senha = sc.nextLine();
+
+        System.out.println("============================================");
+
+        return this;
+
     }
 }

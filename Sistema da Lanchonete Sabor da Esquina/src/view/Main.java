@@ -28,7 +28,7 @@ public class Main {
                 usuario.getSenha())) {
 
             if (autenticacao.getPerfil().equals("ATENDENTE")) {
-                menu.menuAtendente();
+                menu.menuAtendente(sc);
             } else if (autenticacao.getPerfil().equals("COZINHEIRO")) {
                 menu.menuCozinheiro();
             } else if (autenticacao.getPerfil().equals("PROPRIETARIA")) {

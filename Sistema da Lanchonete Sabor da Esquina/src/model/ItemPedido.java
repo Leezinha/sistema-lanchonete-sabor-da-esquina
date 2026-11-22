@@ -2,14 +2,14 @@ package model;
 
 
 public class ItemPedido {
-Produto produto;
-int quantidade;
+private Produto produto;
+private int quantidade;
 
 public ItemPedido(){
 }
 
-public ItemPedido( Produto produtos, int quantidade){
-    this.produto = produtos;
+public ItemPedido( Produto produto, int quantidade){
+    this.produto = produto;
     this.quantidade = quantidade;
 }
 

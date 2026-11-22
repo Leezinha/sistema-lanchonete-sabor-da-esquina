@@ -54,8 +54,7 @@ public class Cliente {
         this.pontoReferencia = pontoReferencia;
     }
 
-    public Cliente cadastrarCliente() {
-        Scanner sc = new Scanner(System.in);
+    public Cliente cadastrarCliente(Scanner sc) {
 
         System.out.println("===== CADASTRO DE CLIENTE =====");
 
@@ -130,4 +129,18 @@ public class Cliente {
             System.out.println("===========================================");
         }
     }
+
+    public Cliente buscarClientePorTelefone(String telefone, Scanner sc){
+    System.out.println("Digite o número de telefone: ");
+    String telefoneBuscado = sc.nextLine();
+
+    for (Cliente cliente : clientes) {
+
+        if (cliente.getTelefone().equals(telefoneBuscado)) {
+            return cliente;
+        }
+    }
+
+    return null;
 }
+ }

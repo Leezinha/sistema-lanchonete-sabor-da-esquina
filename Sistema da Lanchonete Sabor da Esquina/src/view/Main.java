@@ -6,6 +6,8 @@ import model.Cliente;
 import model.Produto;
 import model.Usuario;
 import model.Menu;
+import model.Pedido;
+
 import java.util.Scanner;
 
 public class Main {
@@ -20,6 +22,7 @@ public class Main {
         Produto produto = new Produto();
         Cardapio cardapio = new Cardapio();
         Usuario usuario = new Usuario();
+        Pedido pedido = new Pedido();
         Autenticacao autenticacao = new Autenticacao();
 
         usuario.fazerLogin(sc);
@@ -30,9 +33,9 @@ public class Main {
             if (autenticacao.getPerfil().equals("ATENDENTE")) {
                 menu.menuAtendente(sc);
             } else if (autenticacao.getPerfil().equals("COZINHEIRO")) {
-                menu.menuCozinheiro();
+                menu.menuCozinheiro(sc);
             } else if (autenticacao.getPerfil().equals("PROPRIETARIA")) {
-                menu.menuProprietaria();
+                menu.menuProprietaria(sc);
             }
         }
 

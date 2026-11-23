@@ -107,9 +107,24 @@ public class Cliente {
     }
 
     public void adicionarCliente(Cliente cliente) {
-        clientes.add(cliente);
-        System.out.println("Cliente cadastrado com sucesso!");
+
+    for (Cliente clienteExistente : clientes) {
+
+        if (clienteExistente.getTelefone()
+                .equals(cliente.getTelefone())) {
+
+            System.out.println(
+                    "Já existe um cliente cadastrado com esse telefone.");
+
+            return;
+        }
     }
+
+    clientes.add(cliente);
+
+    System.out.println(
+            "Cliente cadastrado com sucesso!");
+}
 
     public void listarCliente() {
 
@@ -130,8 +145,8 @@ public class Cliente {
         }
     }
 
-    public Cliente buscarClientePorTelefone(String telefone, Scanner sc){
-    System.out.println("Digite o número de telefone: ");
+    public Cliente buscarClientePorTelefone(Scanner sc){
+    System.out.print("Digite o número de telefone: ");
     String telefoneBuscado = sc.nextLine();
 
     for (Cliente cliente : clientes) {

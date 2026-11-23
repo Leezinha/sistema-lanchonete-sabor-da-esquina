@@ -1,6 +1,7 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Pedido {
     private Cliente cliente;
@@ -10,13 +11,15 @@ public class Pedido {
     private double distancia;
     private double taxaEntrega;
     private double valorTotal;
+    private String observacao;
 
     public Pedido() {
         itensPedido = new ArrayList<>();
+
     }
 
     public Pedido(Cliente cliente, ArrayList<ItemPedido> itensPedido, String formaPagamento, String status,
-            double distancia, double taxaEntrega, double valorTotal) {
+            double distancia, double taxaEntrega, double valorTotal, String observacao) {
 
         this.cliente = cliente;
         this.itensPedido = itensPedido;
@@ -25,6 +28,7 @@ public class Pedido {
         this.distancia = distancia;
         this.taxaEntrega = taxaEntrega;
         this.valorTotal = valorTotal;
+        this.observacao = observacao;
     }
 
     public Cliente getCliente() {
@@ -83,6 +87,14 @@ public class Pedido {
         this.valorTotal = valorTotal;
     }
 
+    public String getObservacao() {
+        return observacao;
+    }
+
+    public void setObservacao(String observacao) {
+        this.observacao = observacao;
+    }
+
     public void adicionarItem(ItemPedido item) {
 
         itensPedido.add(item);
@@ -90,13 +102,18 @@ public class Pedido {
 
     public double calcularTaxa() {
 
-        if (distancia <= 3) {
+        if (calcularSubtotal() > 80) {
+
+            return 0.0;
+
+        } else if (distancia <= 3) {
 
             return 5.0;
 
         } else {
 
             return 8.0;
+
         }
     }
 
@@ -112,7 +129,7 @@ public class Pedido {
 
     }
 
-    public double calcularSubtotal(double preço, int quantidade) {
+    public double calcularSubtotal() {
         double subtotal = 0;
 
         for (ItemPedido item : itensPedido) {
@@ -123,7 +140,42 @@ public class Pedido {
         return subtotal;
     }
 
-    
+    public void registrarPagamento(Scanner sc) {
+
+        System.out.println("===== FORMA DE PAGAMENTO =====");
+        System.out.println("1 - PIX");
+        System.out.println("2 - Dinheiro");
+        System.out.println("3 - Cartão");
+
+        int opcao = sc.nextInt();
+
+        switch (opcao) {
+
+            case 1:
+                this.formaPagamento = "PIX";
+                break;
+
+            case 2:
+                this.formaPagamento = "DINHEIRO";
+
+                System.out.print("Valor recebido: ");
+
+                double valorRecebido = sc.nextDouble();
+
+                double troco = valorRecebido - calcularValorTotal();
+
+                System.out.println("Troco: R$ " + troco);
+
+                break;
+
+            case 3:
+                this.formaPagamento = "CARTÃO";
+                break;
+
+            default:
+                System.out.println("Opção inválida.");
+        }
+    }
 
     public boolean verificarValorMinimo(double preco) {
 
@@ -134,6 +186,107 @@ public class Pedido {
         }
 
     }
-     }
 
+    public void alterarStatus(Scanner sc) {
 
+        System.out.println("===== ALTERAR STATUS DO PEDIDO =====");
+
+        System.out.println("1 - RECEBIDO");
+        System.out.println("2 - EM PREPARO");
+        System.out.println("3 - PRONTO");
+        System.out.println("4 - SAIU PARA A ENTREGA");
+        System.out.println("5 - ENTREGUE");
+        System.out.println("6 - CANCELADO");
+        int opcao = sc.nextInt();
+
+        switch (opcao) {
+
+            case 1:
+                this.status = "RECEBIDO";
+                break;
+
+            case 2:
+                this.status = "EM PREPARO";
+                break;
+
+            case 3:
+                this.status = "PRONTO";
+                break;
+
+            case 4:
+                this.status = "SAIU PARA ENTREGA";
+                break;
+
+            case 5:
+                this.status = "ENTREGUE";
+                break;
+
+            case 6:
+                this.status = "CANCELADO";
+                break;
+
+            default:
+                System.out.println("Opção inválida.");
+        }
+
+    }
+
+    public double calcularValorTotal() {
+        valorTotal = calcularSubtotal() + calcularTaxa();
+        return valorTotal;
+    }
+
+    public void exibirPedido() {
+        System.out.println("=========== RESUMO DO PEDIDO ===========");
+        System.out.println("Cliente: " + cliente.getNome());
+        System.out.println("Telefone: " + cliente.getTelefone());
+        listarItens();
+        System.out.println("Observação: " + observacao);
+        System.out.println("Forma de pagamento: " + getFormaPagamento());
+        System.out.println("Status: " + getStatus());
+        System.out.println("Subtotal: " + calcularSubtotal());
+        System.out.println("Taxa: " + calcularTaxa());
+        System.out.println("Valor total: " + calcularValorTotal());
+
+    }
+
+    public Pedido registrarPedido(Cliente cadastroClientes, Scanner sc) {
+
+        System.out.println("=========== REGISTRO DE PEDIDO ===========");
+
+        Cliente clienteEncontrado = cadastroClientes.buscarClientePorTelefone(sc);
+
+        if (clienteEncontrado == null) {
+
+            System.out.println("Cliente não encontrado.");
+
+            return null;
+        }
+
+        this.cliente = clienteEncontrado;
+
+        System.out.println("Cliente encontrado: " + clienteEncontrado.getNome());
+
+        System.out.print("Observação do pedido: ");
+        this.observacao = sc.nextLine();
+
+        registrarPagamento(sc);
+
+        status = "RECEBIDO";
+
+        System.out.println("Pedido registrado com sucesso!");
+
+        return this;
+    }
+
+    public void exibirPedidoCozinha() {
+
+    System.out.println("=========== PEDIDO ===========");
+
+    listarItens();
+
+    System.out.println("Observação: " + observacao);
+
+    System.out.println("Status: " + status);
+}
+}

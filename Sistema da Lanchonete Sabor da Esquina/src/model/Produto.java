@@ -72,14 +72,14 @@ public class Produto {
             System.out.println("Nome obrigatório.");
         } }while (nomeProduto.isBlank());
 
-        System.out.println("Descrição do produto: ");
+        System.out.print("Descrição do produto: ");
         String descricao = sc.nextLine();
 
         double preco = 0;
 
         try {
 
-            System.out.println("Preço do produto: ");
+            System.out.print("Preço do produto: ");
             preco = sc.nextDouble();
             sc.nextLine();
 
@@ -91,7 +91,7 @@ public class Produto {
 
             System.out.println("Preço inválido.");
         }
-        System.out.println("Categoria do produto: ");
+        System.out.print("Categoria do produto: ");
         String categoria = sc.nextLine();
 
         System.out.print("Produto disponível? (S/N): ");

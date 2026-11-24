@@ -37,4 +37,8 @@ public class Cardapio {
       
     }
 
+    public ArrayList<Produto> getProdutos() {
+    return produtos;
+}
+
 }

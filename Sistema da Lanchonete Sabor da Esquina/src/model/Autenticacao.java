@@ -29,8 +29,12 @@ public class Autenticacao {
             return true;
         }
 
-        return false;
+        else{
+            System.out.println("Login ou senha inválido");
+            return false;
+            
     }
 
 }
+ }
 

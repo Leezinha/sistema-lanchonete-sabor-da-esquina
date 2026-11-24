@@ -60,7 +60,7 @@ public class Cliente {
 
         String nome;
         do {
-            System.out.println("Nome: ");
+            System.out.print("\nNome: ");
             nome = sc.nextLine();
 
             if (nome.isBlank()) {
@@ -90,10 +90,10 @@ public class Cliente {
         } while (telefone.isBlank() || !telefone.matches("[0-9()\\-\\s]+") || telefone.length() < 10
                 || telefone.length() > 16);
 
-        System.out.println("Endereço: ");
+        System.out.print("Endereço: ");
         String endereco = sc.nextLine();
 
-        System.out.println("Ponto de referência: ");
+        System.out.print("Ponto de referência: ");
         String pontoReferencia = sc.nextLine();
         System.out.println("===============================");
 
@@ -146,6 +146,7 @@ public class Cliente {
     }
 
     public Cliente buscarClientePorTelefone(Scanner sc){
+    System.out.println("=========== BUSCA DE CLIENTE ===========");
     System.out.print("Digite o número de telefone: ");
     String telefoneBuscado = sc.nextLine();
 

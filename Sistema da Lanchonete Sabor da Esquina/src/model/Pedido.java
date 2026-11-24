@@ -146,6 +146,7 @@ public class Pedido {
         System.out.println("1 - PIX");
         System.out.println("2 - Dinheiro");
         System.out.println("3 - Cartão");
+        System.out.print("Escolha uma opção: ");
 
         int opcao = sc.nextInt();
 
@@ -197,6 +198,8 @@ public class Pedido {
         System.out.println("4 - SAIU PARA A ENTREGA");
         System.out.println("5 - ENTREGUE");
         System.out.println("6 - CANCELADO");
+        System.out.print("Escolha uma opção: ");
+        System.out.println("====================================");
         int opcao = sc.nextInt();
 
         switch (opcao) {
@@ -244,13 +247,12 @@ public class Pedido {
         System.out.println("Observação: " + observacao);
         System.out.println("Forma de pagamento: " + getFormaPagamento());
         System.out.println("Status: " + getStatus());
-        System.out.println("Subtotal: " + calcularSubtotal());
-        System.out.println("Taxa: " + calcularTaxa());
         System.out.println("Valor total: " + calcularValorTotal());
+        System.out.println("=======================================");
 
     }
 
-    public Pedido registrarPedido(Cliente cadastroClientes, Scanner sc) {
+    public Pedido registrarPedido(Cliente cadastroClientes, Cardapio cardapio, Scanner sc) {
 
         System.out.println("=========== REGISTRO DE PEDIDO ===========");
 
@@ -267,26 +269,73 @@ public class Pedido {
 
         System.out.println("Cliente encontrado: " + clienteEncontrado.getNome());
 
+        String continuar;
+
+        do {
+
+            cardapio.listarProdutos();
+
+            System.out.print("Digite o nome do produto: ");
+
+            String nomeProduto = sc.nextLine();
+
+            Produto produtoEscolhido = null;
+
+            for (Produto produto : cardapio.getProdutos()) {
+
+                if (produto.getNomeProduto().equalsIgnoreCase(nomeProduto)) {
+
+                    produtoEscolhido = produto;
+
+                    break;
+                }
+            }
+
+            if (produtoEscolhido == null) {
+
+                System.out.println("Produto não encontrado.");
+
+            } else if (!produtoEscolhido.getDisponivel()) {
+
+                System.out.println("Produto indisponível para pedidos.");
+
+            } else {
+
+                System.out.print("Quantidade: ");
+
+                int quantidade = sc.nextInt();
+
+                sc.nextLine();
+
+                ItemPedido item = new ItemPedido(produtoEscolhido, quantidade);
+
+                adicionarItem(item);
+
+                System.out.println("Item adicionado com sucesso!");
+            }
+
+            System.out.print("Deseja adicionar outro produto? (S/N): ");
+
+            continuar = sc.nextLine();
+
+        } while (continuar.equalsIgnoreCase("S"));
+
         System.out.print("Observação do pedido: ");
+
         this.observacao = sc.nextLine();
+
+        System.out.println("Subtotal: R$ " + calcularSubtotal());
+
+        System.out.println("Taxa de entrega: R$ " + calcularTaxa());
 
         registrarPagamento(sc);
 
-        status = "RECEBIDO";
+        this.status = "RECEBIDO";
 
         System.out.println("Pedido registrado com sucesso!");
 
+        exibirPedido();
+
         return this;
     }
-
-    public void exibirPedidoCozinha() {
-
-    System.out.println("=========== PEDIDO ===========");
-
-    listarItens();
-
-    System.out.println("Observação: " + observacao);
-
-    System.out.println("Status: " + status);
-}
 }

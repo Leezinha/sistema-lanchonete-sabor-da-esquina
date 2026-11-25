@@ -97,11 +97,7 @@ public class Cliente {
         String pontoReferencia = sc.nextLine();
         System.out.println("===============================");
 
-        Cliente cliente = new Cliente(
-                nome,
-                telefone,
-                endereco,
-                pontoReferencia);
+        Cliente cliente = new Cliente( nome, telefone, endereco, pontoReferencia);
 
         return cliente;
     }

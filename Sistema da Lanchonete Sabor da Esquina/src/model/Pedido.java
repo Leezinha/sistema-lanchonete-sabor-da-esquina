@@ -1,6 +1,7 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Pedido {
@@ -12,6 +13,8 @@ public class Pedido {
     private double taxaEntrega;
     private double valorTotal;
     private String observacao;
+    private double valorRecebido;
+    private double troco;
 
     public Pedido() {
         itensPedido = new ArrayList<>();
@@ -19,7 +22,8 @@ public class Pedido {
     }
 
     public Pedido(Cliente cliente, ArrayList<ItemPedido> itensPedido, String formaPagamento, String status,
-            double distancia, double taxaEntrega, double valorTotal, String observacao) {
+            double distancia, double taxaEntrega, double valorTotal, String observacao, double valorRecebido,
+            double troco) {
 
         this.cliente = cliente;
         this.itensPedido = itensPedido;
@@ -29,6 +33,8 @@ public class Pedido {
         this.taxaEntrega = taxaEntrega;
         this.valorTotal = valorTotal;
         this.observacao = observacao;
+        this.troco = troco;
+        this.valorRecebido = valorRecebido;
     }
 
     public Cliente getCliente() {
@@ -95,6 +101,22 @@ public class Pedido {
         this.observacao = observacao;
     }
 
+    public double getTroco() {
+        return troco;
+    }
+
+    public void setTroco(double troco) {
+        this.troco = troco;
+    }
+
+    public double getValorRecebido() {
+        return valorRecebido;
+    }
+
+    public void setValorRecebido(double valorRecebido) {
+        this.valorRecebido = valorRecebido;
+    }
+
     public void adicionarItem(ItemPedido item) {
 
         itensPedido.add(item);
@@ -117,6 +139,27 @@ public class Pedido {
         }
     }
 
+    public double calcularSubtotal() {
+        double subtotal = 0;
+
+        for (ItemPedido item : itensPedido) {
+
+            subtotal = subtotal + item.getProduto().getPreco() * item.getQuantidade();
+        }
+
+        return subtotal;
+    }
+
+    public boolean verificarValorMinimo(double preco) {
+
+        if (preco < 25) {
+            return false;
+        } else {
+            return true;
+        }
+
+    }
+
     public void listarItens() {
 
         System.out.println("================ ITENS DO PEDIDO ================");
@@ -127,17 +170,6 @@ public class Pedido {
             System.out.println("==============================================");
         }
 
-    }
-
-    public double calcularSubtotal() {
-        double subtotal = 0;
-
-        for (ItemPedido item : itensPedido) {
-
-            subtotal = subtotal + item.getProduto().getPreco() * item.getQuantidade();
-        }
-
-        return subtotal;
     }
 
     public void registrarPagamento(Scanner sc) {
@@ -159,11 +191,33 @@ public class Pedido {
             case 2:
                 this.formaPagamento = "DINHEIRO";
 
-                System.out.print("Valor recebido: ");
+                do {
 
-                double valorRecebido = sc.nextDouble();
+                    try {
 
-                double troco = valorRecebido - calcularValorTotal();
+                        System.out.print("Valor recebido: ");
+
+                        this.valorRecebido = sc.nextDouble();
+
+                        sc.nextLine();
+
+                        if (valorRecebido < calcularValorTotal()) {
+
+                            System.out.println("Valor insuficiente.");
+                        }
+
+                    } catch (InputMismatchException e) {
+
+                        System.out.println("Digite um valor válido.");
+
+                        sc.nextLine();
+
+                        valorRecebido = 0;
+                    }
+
+                } while (valorRecebido < calcularValorTotal());
+
+                this.troco = valorRecebido - calcularValorTotal();
 
                 System.out.println("Troco: R$ " + troco);
 
@@ -178,29 +232,19 @@ public class Pedido {
         }
     }
 
-    public boolean verificarValorMinimo(double preco) {
-
-        if (preco < 25) {
-            return false;
-        } else {
-            return true;
-        }
-
-    }
-
     public void alterarStatus(Scanner sc) {
 
         System.out.println("===== ALTERAR STATUS DO PEDIDO =====");
-
         System.out.println("1 - RECEBIDO");
         System.out.println("2 - EM PREPARO");
         System.out.println("3 - PRONTO");
-        System.out.println("4 - SAIU PARA A ENTREGA");
+        System.out.println("4 - SAIU PARA ENTREGA");
         System.out.println("5 - ENTREGUE");
-        System.out.println("6 - CANCELADO");
-        System.out.print("Escolha uma opção: ");
         System.out.println("====================================");
+        System.out.print("Escolha uma opção: ");
+
         int opcao = sc.nextInt();
+        sc.nextLine();
 
         switch (opcao) {
 
@@ -224,12 +268,36 @@ public class Pedido {
                 this.status = "ENTREGUE";
                 break;
 
-            case 6:
-                this.status = "CANCELADO";
+            default:
+                System.out.println("Opção inválida.");
+                return;
+        }
+
+        System.out.println("Status atualizado para: " + this.status);
+    }
+
+    public void alterarStatusCozinheiro(Scanner sc) {
+        System.out.println("===== ALTERAR STATUS DO PEDIDO =====");
+        System.out.println("1 - EM PREPARO");
+        System.out.println("2 - PRONTO");
+        System.out.println("====================================");
+        System.out.print("Escolha uma opção: ");
+        int opcao = sc.nextInt();
+        sc.nextLine();
+
+        switch (opcao) {
+            case 1:
+                this.status = "EM PREPARO";
+                break;
+
+            case 2:
+
+                this.status = "PRONTO";
                 break;
 
             default:
                 System.out.println("Opção inválida.");
+                return;
         }
 
     }
@@ -247,9 +315,19 @@ public class Pedido {
         System.out.println("Observação: " + observacao);
         System.out.println("Forma de pagamento: " + getFormaPagamento());
         System.out.println("Status: " + getStatus());
-        System.out.println("Valor total: " + calcularValorTotal());
-        System.out.println("=======================================");
+        System.out.println("Subtotal: R$ " + calcularSubtotal());
+        System.out.println("Taxa de entrega: R$ " + calcularTaxa());
+        if ("DINHEIRO".equals(formaPagamento)) {
+            System.out.println("Troco: R$ " + getTroco());
+            System.out.println("Valor total: " + calcularValorTotal());
+            System.out.println("=======================================");
 
+        }
+    }
+
+    public void exibirPedidoCozinha() {
+        listarItens();
+        System.out.println("Observação: " + observacao);
     }
 
     public Pedido registrarPedido(Cliente cadastroClientes, Cardapio cardapio, Scanner sc) {
@@ -268,6 +346,35 @@ public class Pedido {
         this.cliente = clienteEncontrado;
 
         System.out.println("Cliente encontrado: " + clienteEncontrado.getNome());
+
+        boolean distanciaValida = false;
+
+        while (!distanciaValida) {
+
+            try {
+
+                System.out.print("Distância da entrega (km): ");
+
+                this.distancia = sc.nextDouble();
+
+                sc.nextLine();
+
+                if (distancia < 0) {
+
+                    System.out.println("Distância inválida.");
+
+                } else {
+
+                    distanciaValida = true;
+                }
+
+            } catch (InputMismatchException e) {
+
+                System.out.println("Digite apenas números.");
+
+                sc.nextLine();
+            }
+        }
 
         String continuar;
 
@@ -301,11 +408,35 @@ public class Pedido {
 
             } else {
 
-                System.out.print("Quantidade: ");
+                int quantidade = 0;
+                boolean quantidadeValida = false;
 
-                int quantidade = sc.nextInt();
+                while (!quantidadeValida) {
 
-                sc.nextLine();
+                    try {
+
+                        System.out.print("Quantidade: ");
+
+                        quantidade = sc.nextInt();
+
+                        sc.nextLine();
+
+                        if (quantidade <= 0) {
+
+                            System.out.println("Quantidade inválida.");
+
+                        } else {
+
+                            quantidadeValida = true;
+                        }
+
+                    } catch (InputMismatchException e) {
+
+                        System.out.println("Digite apenas números inteiros.");
+
+                        sc.nextLine();
+                    }
+                }
 
                 ItemPedido item = new ItemPedido(produtoEscolhido, quantidade);
 
@@ -320,13 +451,22 @@ public class Pedido {
 
         } while (continuar.equalsIgnoreCase("S"));
 
+        if (!verificarValorMinimo(calcularSubtotal())) {
+
+            System.out.println("Pedido não atingiu o valor mínimo de R$ 25,00.");
+
+            return null;
+        }
+
         System.out.print("Observação do pedido: ");
 
         this.observacao = sc.nextLine();
 
+        System.out.println("============== VALOR DO PEDIDO ============== ");
         System.out.println("Subtotal: R$ " + calcularSubtotal());
-
         System.out.println("Taxa de entrega: R$ " + calcularTaxa());
+        System.out.println("Valor total: R$ " + calcularValorTotal());
+        System.out.println("============================================= ");
 
         registrarPagamento(sc);
 

@@ -7,6 +7,7 @@ import model.Produto;
 import model.Usuario;
 import model.Menu;
 import model.Pedido;
+import model.CadastroPedido;
 
 import java.util.Scanner;
 
@@ -21,6 +22,7 @@ public class Main {
         Usuario usuario = new Usuario();
         Pedido pedido = new Pedido();
         Autenticacao autenticacao = new Autenticacao();
+        CadastroPedido cadastroPedidos = new CadastroPedido();
 
         int opcao;
 
@@ -46,15 +48,15 @@ public class Main {
 
                         if (autenticacao.getPerfil().equals("ATENDENTE")) {
 
-                            menu.menuAtendente(sc, cliente, produto, cardapio, pedido);
+                            menu.menuAtendente(sc, cliente, produto, cardapio, cadastroPedidos);
 
                         } else if (autenticacao.getPerfil().equals("COZINHEIRO")) {
 
-                            menu.menuCozinheiro(sc, pedido);
+                            menu.menuCozinheiro(sc, cadastroPedidos);
 
                         } else if (autenticacao.getPerfil().equals("PROPRIETARIA")) {
 
-                            menu.menuProprietaria(sc, cliente, produto, cardapio, pedido);
+                            menu.menuProprietaria(sc, cliente, produto, cardapio, cadastroPedidos);
                         }
 
                     } else {

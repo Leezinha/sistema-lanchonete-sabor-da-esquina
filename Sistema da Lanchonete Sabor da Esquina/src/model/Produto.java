@@ -63,33 +63,46 @@ public class Produto {
     }
 
     public Produto cadastrarProduto(Scanner sc) {
-        
-       String nomeProduto;
 
-        do{ System.out.print("Nome do produto: ");
-        nomeProduto = sc.nextLine();
-        if (nomeProduto.isBlank()) {
-            System.out.println("Nome obrigatório.");
-        } }while (nomeProduto.isBlank());
+        String nomeProduto;
+
+        do {
+            System.out.print("Nome do produto: ");
+            nomeProduto = sc.nextLine();
+            if (nomeProduto.isBlank()) {
+                System.out.println("Nome obrigatório.");
+            }
+        } while (nomeProduto.isBlank());
 
         System.out.print("Descrição do produto: ");
         String descricao = sc.nextLine();
 
         double preco = 0;
+        boolean precoValido = false;
 
-        try {
+        while (!precoValido) {
 
-            System.out.print("Preço do produto: ");
-            preco = sc.nextDouble();
-            sc.nextLine();
+            try {
 
-            if (preco <= 0) {
-                System.out.println("Preço deve ser maior que zero.");
+                System.out.print("Preço do produto: ");
+                preco = sc.nextDouble();
+                sc.nextLine();
 
+                if (preco <= 0) {
+
+                    System.out.println("Preço deve ser maior que zero.");
+
+                } else {
+
+                    precoValido = true;
+                }
+
+            } catch (InputMismatchException e) {
+
+                System.out.println("Preço inválido.");
+
+                sc.nextLine();
             }
-        } catch (InputMismatchException e) {
-
-            System.out.println("Preço inválido.");
         }
         System.out.print("Categoria do produto: ");
         String categoria = sc.nextLine();
@@ -105,12 +118,7 @@ public class Produto {
             disponivel = false;
         }
 
-        Produto produto = new Produto(
-                nomeProduto,
-                descricao,
-                preco,
-                categoria,
-                disponivel);
+        Produto produto = new Produto(nomeProduto, descricao, preco, categoria, disponivel);
 
         return produto;
 

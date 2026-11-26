@@ -174,62 +174,58 @@ public class Pedido {
 
     public void registrarPagamento(Scanner sc) {
 
-        System.out.println("===== FORMA DE PAGAMENTO =====");
-        System.out.println("1 - PIX");
-        System.out.println("2 - Dinheiro");
-        System.out.println("3 - Cartão");
-        System.out.print("Escolha uma opção: ");
+        int opcao;
 
-        int opcao = sc.nextInt();
+        do {
+            System.out.println("===== FORMA DE PAGAMENTO =====");
+            System.out.println("1 - PIX");
+            System.out.println("2 - Dinheiro");
+            System.out.println("3 - Cartão");
+            System.out.print("Escolha uma opção: ");
 
-        switch (opcao) {
+            opcao = sc.nextInt();
+            sc.nextLine();
 
-            case 1:
-                this.formaPagamento = "PIX";
-                break;
+            switch (opcao) {
 
-            case 2:
-                this.formaPagamento = "DINHEIRO";
+                case 1:
+                    this.formaPagamento = "PIX";
+                    break;
 
-                do {
+                case 2:
+                    this.formaPagamento = "DINHEIRO";
 
-                    try {
+                    do {
+                        try {
+                            System.out.print("Valor recebido: ");
+                            this.valorRecebido = sc.nextDouble();
+                            sc.nextLine();
 
-                        System.out.print("Valor recebido: ");
+                            if (valorRecebido < calcularValorTotal()) {
+                                System.out.println("Valor insuficiente.");
+                            }
 
-                        this.valorRecebido = sc.nextDouble();
-
-                        sc.nextLine();
-
-                        if (valorRecebido < calcularValorTotal()) {
-
-                            System.out.println("Valor insuficiente.");
+                        } catch (InputMismatchException e) {
+                            System.out.println("Digite um valor válido.");
+                            sc.nextLine();
+                            valorRecebido = 0;
                         }
 
-                    } catch (InputMismatchException e) {
+                    } while (valorRecebido < calcularValorTotal());
 
-                        System.out.println("Digite um valor válido.");
+                    this.troco = valorRecebido - calcularValorTotal();
+                    System.out.println("Troco: R$ " + troco);
+                    break;
 
-                        sc.nextLine();
+                case 3:
+                    this.formaPagamento = "CARTÃO";
+                    break;
 
-                        valorRecebido = 0;
-                    }
+                default:
+                    System.out.println("Opção inválida.");
+            }
 
-                } while (valorRecebido < calcularValorTotal());
-
-                this.troco = valorRecebido - calcularValorTotal();
-
-                System.out.println("Troco: R$ " + troco);
-
-                break;
-
-            case 3:
-                this.formaPagamento = "CARTÃO";
-                break;
-
-            default:
-                System.out.println("Opção inválida.");
-        }
+        } while (opcao < 1 || opcao > 3);
     }
 
     public void alterarStatus(Scanner sc) {
@@ -308,21 +304,27 @@ public class Pedido {
     }
 
     public void exibirPedido() {
-        System.out.println("=========== RESUMO DO PEDIDO ===========");
+
+        System.out.println( "=========== RESUMO DO PEDIDO ===========");
         System.out.println("Cliente: " + cliente.getNome());
-        System.out.println("Telefone: " + cliente.getTelefone());
+        System.out.println( "Telefone: " + cliente.getTelefone());
         listarItens();
-        System.out.println("Observação: " + observacao);
+        System.out.println( "Observação: " + observacao);
         System.out.println("Forma de pagamento: " + getFormaPagamento());
-        System.out.println("Status: " + getStatus());
-        System.out.println("Subtotal: R$ " + calcularSubtotal());
-        System.out.println("Taxa de entrega: R$ " + calcularTaxa());
+
+        System.out.println( "Status: " + getStatus());
+
+        System.out.println("Subtotal: R$ "+ calcularSubtotal());
+
+        System.out.println("Taxa de entrega: R$ "+ calcularTaxa());
+
+        System.out.println("Valor total: R$ " + calcularValorTotal());
+
         if ("DINHEIRO".equals(formaPagamento)) {
             System.out.println("Troco: R$ " + getTroco());
-            System.out.println("Valor total: " + calcularValorTotal());
-            System.out.println("=======================================");
-
         }
+
+        System.out.println( "=======================================");
     }
 
     public void exibirPedidoCozinha() {
@@ -333,6 +335,11 @@ public class Pedido {
     public Pedido registrarPedido(Cliente cadastroClientes, Cardapio cardapio, Scanner sc) {
 
         System.out.println("=========== REGISTRO DE PEDIDO ===========");
+
+        if (cardapio.getProdutos().isEmpty()) {
+            System.out.println("Nenhum produto cadastrado no cardápio.");
+            return null;
+        }
 
         Cliente clienteEncontrado = cadastroClientes.buscarClientePorTelefone(sc);
 
@@ -478,4 +485,5 @@ public class Pedido {
 
         return this;
     }
+
 }

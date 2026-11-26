@@ -56,71 +56,84 @@ public class Cliente {
 
     public Cliente cadastrarCliente(Scanner sc) {
 
-        System.out.println("===== CADASTRO DE CLIENTE =====");
+        System.out.println("\n============ CADASTRO DE CLIENTE ============");
 
         String nome;
         do {
-            System.out.print("\nNome: ");
+            System.out.print("Nome: ");
             nome = sc.nextLine();
 
             if (nome.isBlank()) {
                 System.out.println("Nome obrigatório.");
+            } else if (!nome.matches("[a-z A-Z\\s]+")) {
+                System.out.println("Nome deve conter apenas letras");
             }
-        } while (nome.isBlank());
+        } while (nome.isBlank() || !nome.matches("[a-zA-Z \\s]+"));
 
         String telefone;
 
         do {
 
-            System.out.print("Telefone: ");
+            System.out.print("Telefone: +55 ");
+
             telefone = sc.nextLine();
 
             if (telefone.isBlank()) {
+
                 System.out.println("Telefone obrigatório.");
+
+            } else if (!telefone.matches("[0-9]+")) {
+
+                System.out.println("Telefone deve conter apenas números inteiros.");
+
+            } else if (telefone.length() != 11) {
+
+                System.out.println(
+                        "Telefone inválido. Digite DDD + número.");
             }
 
-            else if (!telefone.matches("[0-9()\\-\\s]+")) {
-                System.out.println("Telefone deve conter apenas números.");
+        } while (telefone.isBlank() || !telefone.matches("[0-9]+") || telefone.length() != 11);
+
+        String endereco;
+
+        do {
+
+            System.out.print("Endereço: ");
+
+            endereco = sc.nextLine();
+
+            if (endereco.isBlank()) {
+
+                System.out.println("Endereço obrigatório.");
             }
 
-            else if (telefone.length() < 10 || telefone.length() > 16) {
-                System.out.println("Telefone inválido.");
-            }
-
-        } while (telefone.isBlank() || !telefone.matches("[0-9()\\-\\s]+") || telefone.length() < 10
-                || telefone.length() > 16);
-
-        System.out.print("Endereço: ");
-        String endereco = sc.nextLine();
+        } while (endereco.isBlank());
 
         System.out.print("Ponto de referência: ");
         String pontoReferencia = sc.nextLine();
-        System.out.println("===============================");
+        System.out.println("================================================");
 
-        Cliente cliente = new Cliente( nome, telefone, endereco, pontoReferencia);
+        Cliente cliente = new Cliente(nome, telefone, endereco, pontoReferencia);
 
         return cliente;
     }
 
     public void adicionarCliente(Cliente cliente) {
 
-    for (Cliente clienteExistente : clientes) {
+        for (Cliente clienteExistente : clientes) {
 
-        if (clienteExistente.getTelefone()
-                .equals(cliente.getTelefone())) {
+            if (clienteExistente.getTelefone().equals(cliente.getTelefone())) {
 
-            System.out.println(
-                    "Já existe um cliente cadastrado com esse telefone.");
+                System.out.println("Já existe um cliente cadastrado com esse telefone.");
 
-            return;
+                return;
+            }
         }
+
+        clientes.add(cliente);
+
+        System.out.println("Cliente cadastrado com sucesso!");
     }
-
-    clientes.add(cliente);
-
-    System.out.println(
-            "Cliente cadastrado com sucesso!");
-}
 
     public void listarCliente() {
 
@@ -129,7 +142,7 @@ public class Cliente {
             return;
         }
 
-        System.out.println("===== CLIENTES CADASTRADOS =====");
+        System.out.println("\n============ CLIENTES CADASTRADOS ============");
 
         for (Cliente cliente : clientes) {
 
@@ -137,22 +150,25 @@ public class Cliente {
             System.out.println("Telefone: " + cliente.getTelefone());
             System.out.println("Endereço: " + cliente.getEndereco());
             System.out.println("Ponto de referência: " + cliente.getPontoReferencia());
-            System.out.println("===========================================");
+            System.out.println("=============================================");
         }
+
     }
 
-    public Cliente buscarClientePorTelefone(Scanner sc){
-    System.out.println("=========== BUSCA DE CLIENTE ===========");
-    System.out.print("Digite o número de telefone: ");
-    String telefoneBuscado = sc.nextLine();
+    public Cliente buscarClientePorTelefone(Scanner sc) {
+        System.out.println("\n============ BUSCA DE CLIENTE ============");
+        System.out.print("Digite o número de telefone: ");
+        String telefoneBuscado = sc.nextLine();
 
-    for (Cliente cliente : clientes) {
+        for (Cliente cliente : clientes) {
 
-        if (cliente.getTelefone().equals(telefoneBuscado)) {
-            return cliente;
+            if (cliente.getTelefone().equals(telefoneBuscado)) {
+                return cliente;
+            }
         }
+    System.out.println("==========================================");
+    
+        return null;
     }
 
-    return null;
 }
- }

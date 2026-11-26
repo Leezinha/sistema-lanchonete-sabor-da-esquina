@@ -22,7 +22,7 @@ public class Cardapio {
             return;
         }
 
-        System.out.println("=================== CARDÁPIO ===================");
+        System.out.println("============ CARDÁPIO ============");
 
         for (Produto produto : produtos) {
 
@@ -31,7 +31,7 @@ public class Cardapio {
             System.out.println("Preço: R$ " + produto.getPreco());
             System.out.println("Categoria: " + produto.getCategoria());
             System.out.println("Status: " + produto.statusDisponibilidade());
-            System.out.println("===========================================");
+            System.out.println("===============================");
         }
 
       

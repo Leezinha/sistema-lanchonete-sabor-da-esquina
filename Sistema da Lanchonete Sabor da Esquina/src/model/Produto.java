@@ -74,8 +74,19 @@ public class Produto {
             }
         } while (nomeProduto.isBlank());
 
-        System.out.print("Descrição do produto: ");
-        String descricao = sc.nextLine();
+        String descricao;
+
+        do {
+
+            System.out.print("Descrição do produto: ");
+            descricao = sc.nextLine();
+
+            if (descricao.isBlank()) {
+
+                System.out.println("Descrição obrigatória.");
+            }
+
+        } while (descricao.isBlank());
 
         double preco = 0;
         boolean precoValido = false;
@@ -85,12 +96,15 @@ public class Produto {
             try {
 
                 System.out.print("Preço do produto: ");
+
                 preco = sc.nextDouble();
+
                 sc.nextLine();
 
                 if (preco <= 0) {
 
-                    System.out.println("Preço deve ser maior que zero.");
+                    System.out.println(
+                            "Preço deve ser maior que zero.");
 
                 } else {
 
@@ -99,25 +113,48 @@ public class Produto {
 
             } catch (InputMismatchException e) {
 
-                System.out.println("Preço inválido.");
+                System.out.println(
+                        "Preço inválido.");
 
                 sc.nextLine();
             }
         }
-        System.out.print("Categoria do produto: ");
-        String categoria = sc.nextLine();
+        String categoria;
 
-        System.out.print("Produto disponível? (S/N): ");
-        String resposta = sc.nextLine();
+        do {
 
-        boolean disponivel;
+            System.out.print("Categoria do produto: ");
 
-        if (resposta.equalsIgnoreCase("S")) {
-            disponivel = true;
-        } else {
-            disponivel = false;
-        }
+            categoria = sc.nextLine();
 
+            if (categoria.isBlank()) {
+
+                System.out.println(
+                        "Categoria obrigatória.");
+            }
+
+        } while (categoria.isBlank());
+
+        String resposta;
+
+        do {
+
+            System.out.print(
+                    "Produto disponível? (S/N): ");
+
+            resposta = sc.nextLine();
+
+            if (!resposta.equalsIgnoreCase("S")
+                    && !resposta.equalsIgnoreCase("N")) {
+
+                System.out.println(
+                        "Digite apenas S ou N.");
+            }
+
+        } while (!resposta.equalsIgnoreCase("S")
+                && !resposta.equalsIgnoreCase("N"));
+
+        boolean disponivel = resposta.equalsIgnoreCase("S");
         Produto produto = new Produto(nomeProduto, descricao, preco, categoria, disponivel);
 
         return produto;

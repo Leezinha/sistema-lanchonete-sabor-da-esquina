@@ -3,10 +3,10 @@ package view;
 import model.Autenticacao;
 import model.Cardapio;
 import model.Cliente;
+import model.LimparTerminal;
 import model.Produto;
 import model.Usuario;
 import model.Menu;
-import model.Pedido;
 import model.CadastroPedido;
 
 import java.util.Scanner;
@@ -20,19 +20,19 @@ public class Main {
         Produto produto = new Produto();
         Cardapio cardapio = new Cardapio();
         Usuario usuario = new Usuario();
-        Pedido pedido = new Pedido();
         Autenticacao autenticacao = new Autenticacao();
         CadastroPedido cadastroPedidos = new CadastroPedido();
 
         int opcao;
 
         do {
-
-            System.out.println("===== SISTEMA =====");
+            LimparTerminal.limparTerminal();
+            System.out.println("\n============ SISTEMA ============");
             System.out.println("1 - Fazer login");
             System.out.println("0 - Encerrar sistema");
+            System.out.println("=================================");
             System.out.print("Escolha uma opção: ");
-
+            
             opcao = sc.nextInt();
             sc.nextLine();
 
@@ -42,9 +42,7 @@ public class Main {
 
                     usuario.fazerLogin(sc);
 
-                    if (autenticacao.verificarPerfil(
-                            usuario.getLogin(),
-                            usuario.getSenha())) {
+                    if (autenticacao.verificarPerfil( usuario.getLogin(),usuario.getSenha())) {
 
                         if (autenticacao.getPerfil().equals("ATENDENTE")) {
 
@@ -62,6 +60,9 @@ public class Main {
                     } else {
 
                         System.out.println("Login inválido.");
+                         System.out.println("\nPressione ENTER para voltar ao menu...");
+                        sc.nextLine();
+
 
                     }
 
@@ -76,6 +77,8 @@ public class Main {
                 default:
 
                     System.out.println("Opção inválida.");
+                    System.out.println("\nPressione ENTER para voltar ao menu...");
+                     sc.nextLine();
             }
 
         } while (opcao != 0);

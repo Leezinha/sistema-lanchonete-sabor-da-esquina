@@ -30,7 +30,6 @@ public class Autenticacao {
         }
 
         else{
-            System.out.println("Login ou senha inválido");
             return false;
             
     }

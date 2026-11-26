@@ -3,7 +3,6 @@ package model;
 import java.util.Scanner;
 
 public class Usuario {
-
     private String login;
     private String senha;
     private String perfil;
@@ -50,8 +49,8 @@ public class Usuario {
     }
 
     public Usuario fazerLogin(Scanner sc) {
-
-        System.out.println("============ SISTEMA DE LOGIN ============");
+        LimparTerminal.limparTerminal();
+        System.out.println("\n============ SISTEMA DE LOGIN ============");
 
         System.out.print("Login: ");
         this.login = sc.nextLine();
@@ -60,8 +59,11 @@ public class Usuario {
         this.senha = sc.nextLine();
 
         System.out.println("============================================");
+     
 
         return this;
+
+       
 
     }
 }

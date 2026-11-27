@@ -12,7 +12,7 @@ public class Menu {
         do {
             LimparTerminal.limparTerminal();
 
-            System.out.println("\n============ MENU ATENDENTE ============");
+            System.out.println("============ MENU ATENDENTE ============");
             System.out.println("1 - Cadastrar cliente");
             System.out.println("2 - Consultar clientes");
             System.out.println("3 - Buscar cliente");
@@ -164,7 +164,7 @@ public class Menu {
         do {
             LimparTerminal.limparTerminal();
 
-            System.out.println("\n============ MENU COZINHEIRO ============");
+            System.out.println("============ MENU COZINHEIRO ============");
             System.out.println("1 - Consultar pedidos");
             System.out.println("2 - Alterar status do pedido");
             System.out.println("0 - Logout");
@@ -177,7 +177,7 @@ public class Menu {
             switch (opcao) {
 
                 case 1:
-                    cadastroPedido.listarPedidos();
+                    cadastroPedido.listarPedidosCozinha();
                     System.out.println("\nPressione ENTER para voltar ao menu...");
                     sc.nextLine();
                     break;
@@ -190,8 +190,8 @@ public class Menu {
                         break;
                     }
 
-                    cadastroPedido.listarPedidos();
-                    System.out.print("Digite o número do pedido: ");
+                    cadastroPedido.listarPedidosCozinha();
+                    System.out.print("\n Digite o número do pedido: ");
                     int numeroPedido = sc.nextInt();
                     sc.nextLine();
 
@@ -228,7 +228,7 @@ public class Menu {
         do {
             LimparTerminal.limparTerminal();
 
-            System.out.println("\n============ MENU PROPRIETÁRIA ============");
+            System.out.println("============ MENU PROPRIETÁRIA ============");
             System.out.println("1 - Cadastrar cliente");
             System.out.println("2 - Consultar clientes");
             System.out.println("3 - Buscar cliente");

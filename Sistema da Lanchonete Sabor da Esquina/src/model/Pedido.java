@@ -122,22 +122,16 @@ public class Pedido {
         itensPedido.add(item);
     }
 
-    public double calcularTaxa() {
-
-        if (calcularSubtotal() > 80) {
-
-            return 0.0;
-
-        } else if (distancia <= 3) {
-
-            return 5.0;
-
-        } else {
-
-            return 8.0;
-
-        }
+   public double calcularTaxa() {
+    if (calcularSubtotal() > 80) {
+        this.taxaEntrega = 0.0;
+    } else if (distancia <= 3) {
+        this.taxaEntrega = 5.0;
+    } else {
+        this.taxaEntrega = 8.0;
     }
+    return this.taxaEntrega;
+}
 
     public double calcularSubtotal() {
         double subtotal = 0;
@@ -273,7 +267,7 @@ public class Pedido {
     }
 
     public void alterarStatusCozinheiro(Scanner sc) {
-        System.out.println("===== ALTERAR STATUS DO PEDIDO =====");
+        System.out.println("\n===== ALTERAR STATUS DO PEDIDO =====");
         System.out.println("1 - EM PREPARO");
         System.out.println("2 - PRONTO");
         System.out.println("====================================");
@@ -295,6 +289,8 @@ public class Pedido {
                 System.out.println("Opção inválida.");
                 return;
         }
+
+        System.out.println("Status atualizado para: " + this.status );
 
     }
 
@@ -329,6 +325,7 @@ public class Pedido {
 
     public void exibirPedidoCozinha() {
         listarItens();
+        System.out.println( "Status: " + getStatus());
         System.out.println("Observação: " + observacao);
     }
 

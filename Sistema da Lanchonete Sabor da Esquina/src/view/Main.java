@@ -44,6 +44,8 @@ public class Main {
 
                     if (autenticacao.verificarPerfil( usuario.getLogin(),usuario.getSenha())) {
 
+                        
+
                         if (autenticacao.getPerfil().equals("ATENDENTE")) {
 
                             menu.menuAtendente(sc, cliente, produto, cardapio, cadastroPedidos);

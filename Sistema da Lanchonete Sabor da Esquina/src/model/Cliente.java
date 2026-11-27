@@ -61,14 +61,14 @@ public class Cliente {
         String nome;
         do {
             System.out.print("Nome: ");
-            nome = sc.nextLine();
+            nome = sc.nextLine().trim();
 
-            if (nome.isBlank()) {
+            if (nome.isEmpty()) {
                 System.out.println("Nome obrigatório.");
-            } else if (!nome.matches("[a-z A-Z\\s]+")) {
-                System.out.println("Nome deve conter apenas letras");
+            } else if (!nome.matches("[a-zA-Z ]+")) {
+                System.out.println("Nome deve conter apenas letras.");
             }
-        } while (nome.isBlank() || !nome.matches("[a-zA-Z \\s]+"));
+        } while (nome.isEmpty() || !nome.matches("[a-zA-Z ]+"));
 
         String telefone;
 
@@ -95,22 +95,33 @@ public class Cliente {
         } while (telefone.isBlank() || !telefone.matches("[0-9]+") || telefone.length() != 11);
 
         String endereco;
-
-        do {
-
+        while (true) {
             System.out.print("Endereço: ");
+            endereco = sc.nextLine().trim();
 
-            endereco = sc.nextLine();
-
-            if (endereco.isBlank()) {
-
+            if (endereco.isEmpty()) {
                 System.out.println("Endereço obrigatório.");
+            } else if (!endereco.matches(".*[a-zA-Z].*")) {
+                System.out.println("Endereço inválido. Digite o nome da rua/avenida, não apenas números.");
+            } else {
+                break;
             }
+        }
 
-        } while (endereco.isBlank());
+        String pontoReferencia;
+        while (true) {
+            System.out.print("Ponto de referencia (ou ENTER para pular): ");
+            pontoReferencia = sc.nextLine().trim();
 
-        System.out.print("Ponto de referência: ");
-        String pontoReferencia = sc.nextLine();
+            if (pontoReferencia.isEmpty()) {
+                pontoReferencia = "Nao informado";
+                break;
+            } else if (!pontoReferencia.matches(".*[a-zA-Z].*")) {
+                System.out.println("Ponto de referencia invalido. Digite uma descricao, nao apenas numeros.");
+            } else {
+                break;
+            }
+        }
         System.out.println("================================================");
 
         Cliente cliente = new Cliente(nome, telefone, endereco, pontoReferencia);
@@ -159,15 +170,14 @@ public class Cliente {
         System.out.println("\n============ BUSCA DE CLIENTE ============");
         System.out.print("Digite o número de telefone: ");
         String telefoneBuscado = sc.nextLine();
-
+        System.out.println("==========================================");
         for (Cliente cliente : clientes) {
 
             if (cliente.getTelefone().equals(telefoneBuscado)) {
                 return cliente;
             }
         }
-    System.out.println("==========================================");
-    
+
         return null;
     }
 

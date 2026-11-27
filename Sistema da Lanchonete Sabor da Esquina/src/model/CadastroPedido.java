@@ -3,7 +3,7 @@ package model;
 import java.util.ArrayList;
 
 public class CadastroPedido {
-     private ArrayList<Pedido> pedidos;
+    private ArrayList<Pedido> pedidos;
 
     public CadastroPedido() {
 
@@ -22,45 +22,60 @@ public class CadastroPedido {
 
     public void listarPedidos() {
 
-    if (pedidos.isEmpty()) {
+        if (pedidos.isEmpty()) {
 
-        System.out.println(
-                "Nenhum pedido cadastrado.");
+            System.out.println(
+                    "Nenhum pedido cadastrado.");
 
-        return;
+            return;
+        }
+
+        int contador = 1;
+
+        for (Pedido pedido : pedidos) {
+
+            System.out.println(
+                    "\n===================== PEDIDO "
+                            + contador
+                            + " =====================");
+
+            pedido.exibirPedido();
+
+            contador++;
+        }
     }
 
-    int contador = 1;
+    public void listarPedidosCozinha() {
+        if (pedidos.isEmpty()) {
+            System.out.println("Nenhum pedido cadastrado.");
+            return;
+        }
 
-    for (Pedido pedido : pedidos) {
+        int contador = 1;
 
-        System.out.println(
-                "\n===== PEDIDO "
-                        + contador
-                        + " =====");
-
-        pedido.exibirPedido();
-
-        contador++;
-    }
-}
-
-public Pedido getUltimoPedido() {
-
-    if (pedidos.isEmpty()) {
-        return null;
+        for (Pedido pedido : pedidos) {
+            System.out.println("\n===================== PEDIDO " + contador + " =====================");
+            pedido.exibirPedidoCozinha();
+            contador++;
+        }
     }
 
-    return pedidos.get(pedidos.size() - 1);
-}
+    public Pedido getUltimoPedido() {
 
-public Pedido buscarPedido(int numero) {
+        if (pedidos.isEmpty()) {
+            return null;
+        }
 
-    if (numero < 1 || numero > pedidos.size()) {
-        return null;
+        return pedidos.get(pedidos.size() - 1);
     }
 
-    return pedidos.get(numero - 1);
-}
+    public Pedido buscarPedido(int numero) {
+
+        if (numero < 1 || numero > pedidos.size()) {
+            return null;
+        }
+
+        return pedidos.get(numero - 1);
+    }
 
 }

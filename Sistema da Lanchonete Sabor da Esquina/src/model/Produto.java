@@ -63,31 +63,31 @@ public class Produto {
     }
 
     public Produto cadastrarProduto(Scanner sc) {
-
         String nomeProduto;
 
         do {
             System.out.print("Nome do produto: ");
-            nomeProduto = sc.nextLine();
-            if (nomeProduto.isBlank()) {
+            nomeProduto = sc.nextLine().trim();
+
+            if (nomeProduto.isEmpty()) {
                 System.out.println("Nome obrigatório.");
+            } else if (!nomeProduto.matches(".*[a-zA-Z].*")) {
+                System.out.println("Nome inválido. Digite o nome do produto, não apenas números.");
             }
-        } while (nomeProduto.isBlank());
+        } while (nomeProduto.isEmpty() || !nomeProduto.matches(".*[a-zA-Z].*"));
 
         String descricao;
 
         do {
-
             System.out.print("Descrição do produto: ");
-            descricao = sc.nextLine();
+            descricao = sc.nextLine().trim();
 
-            if (descricao.isBlank()) {
-
+            if (descricao.isEmpty()) {
                 System.out.println("Descrição obrigatória.");
+            } else if (!descricao.matches(".*[a-zA-Z].*")) {
+                System.out.println("Descrição inválida. Digite a descrição, não apenas números.");
             }
-
-        } while (descricao.isBlank());
-
+        } while (descricao.isEmpty() || !descricao.matches(".*[a-zA-Z].*"));
         double preco = 0;
         boolean precoValido = false;
 
@@ -122,18 +122,15 @@ public class Produto {
         String categoria;
 
         do {
-
             System.out.print("Categoria do produto: ");
+            categoria = sc.nextLine().trim();
 
-            categoria = sc.nextLine();
-
-            if (categoria.isBlank()) {
-
-                System.out.println(
-                        "Categoria obrigatória.");
+            if (categoria.isEmpty()) {
+                System.out.println("Categoria obrigatória.");
+            } else if (!categoria.matches("[a-zA-Z ]+")) {
+                System.out.println("Categoria deve conter apenas letras.");
             }
-
-        } while (categoria.isBlank());
+        } while (categoria.isEmpty() || !categoria.matches("[a-zA-Z ]+"));
 
         String resposta;
 
